@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cmocean
 
+import pdb
 
 def convert_pr_units(darray):
     """Convert kg m-2 s-1 to mm day-1.
@@ -32,7 +33,8 @@ def apply_mask(darray, sftlf_file, realm):
     """
   
     dset = xr.open_dataset(sftlf_file)
-  
+
+    assert realm in ['land', 'ocean'], """Valid realms are 'land' or 'ocean'"""
     if realm == 'land':
         masked_darray = darray.where(dset['sftlf'].data < 50)
     else:

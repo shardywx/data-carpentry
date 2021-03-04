@@ -1,12 +1,12 @@
 import argparse
+import pdb 
 
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import numpy as np
 import cmocean
-
-import pdb
+import cmdline_provenance as cmdprov
 
 def convert_pr_units(darray):
     """Convert kg m-2 s-1 to mm day-1.
@@ -90,7 +90,13 @@ def main(inargs):
 
     create_plot(clim, dset.attrs['source_id'], inargs.season,
                 gridlines=inargs.gridlines, levels=inargs.cbar_levels)
-    plt.savefig(inargs.output_file, dpi=200)
+
+    image_format = inargs.output_file.split('.')[-1]
+    assert image_format == 'png', 'Only valid output format is .png'
+
+    new_log = cmdprov.new_log(infile_history={inargs.pr_file: dset.attrs['history']})
+    new_log = new_log.replace('\n', '  END  ')
+    plt.savefig(inargs.output_file, metadata={'History': new_log}, dpi=200)
 
 
 if __name__ == '__main__':

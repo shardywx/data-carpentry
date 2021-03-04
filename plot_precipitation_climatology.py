@@ -66,7 +66,7 @@ def main(inargs):
 
 
 if __name__ == '__main__':
-    description='Plot the precipitation climatology.'
+    description='Plot the precipitation climatology for a given season.'
     parser = argparse.ArgumentParser(description=description)
  
     # specify which command-line arguments the script will accept 
